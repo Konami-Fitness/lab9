@@ -1,0 +1,101 @@
+//Part 1
+
+CREATE DATABASE websyslab9;
+CREATE TABLE courses(crn int(11), prefix varchar(4) NOT NULL, number smallint(4) NOT NULL, title varchar(255) NOT NULL, PRIMARY KEY(crn));
+                     
+ALTER TABLE courses convert to character set utf8 collate utf8_general_ci;
+                     
+CREATE TABLE students(RIN int(9), RCSID char(7), fname varchar(100) NOT NULL, lname varchar(100) NOT NULL, alias varchar(100) NOT NULL, phone int(10), PRIMARY KEY(RIN));
+
+ALTER TABLE students convert to character set utf8 collate utf8_general_ci;
+
+
+//Part 2
+
+1. 
+
+ALTER TABLE students
+ADD street varchar(255) NOT NULL,
+ADD city varchar(255) NOT NULL,
+ADD state varchar(255) NOT NULL,
+ADD zip int(5);
+
+2.
+ALTER TABLE courses
+ADD section int(2) NOT NULL,
+ADD year int(4) NOT NULL;
+
+3.
+
+CREATE TABLE grades(id int AUTO_INCREMENT, gCRN int(11), gRIN int(9), grade int(3) NOT NULL, 
+FOREIGN KEY(gCRN) REFERENCES courses(CRN) 
+ON DELETE CASCADE ON UPDATE CASCADE, 
+FOREIGN KEY(gRIN) REFERENCES students(RIN)
+ON DELETE CASCADE ON UPDATE CASCADE,
+PRIMARY KEY(id));
+
+4. 
+
+INSERT INTO courses VALUES(40377, 'CSCI', 1200, 'Data Structures', 1, 2020);
+INSERT INTO courses VALUES(41336, 'CSCI', 2300, 'Intro to Algorithms', 1, 2020);
+INSERT INTO courses VALUES(40331, 'CSCI', 4380, 'Database Systems', 2, 2020);
+INSERT INTO courses VALUES(43532, 'PSYC', 4730, 'Positive Psychology', 1, 2020);
+
+
+
+5. INSERT INTO students VALUES(661963855, 'kokkam', 'Michael', 'Kokkatt', 'Mike', 5146072856, 'Grove St', 'New York', 'NY', 10527);
+INSERT INTO students VALUES(661964865, 'clarkt', 'Teddy', 'Clark', 'Teddy', 5343075856, 'Miller St', 'Los Angeles', 'CA', 10517);
+INSERT INTO students VALUES(661964765, 'riggss', 'Shane', 'Riggs', 'Shane', 5349075356, 'Broad St', 'Houston', 'TX', 10427);
+INSERT INTO students VALUES(661864865, 'claisseh', 'Henry', 'Claisse', 'Henry', 5343079961, 'Dole St', 'Miami', 'FL', 10514);
+
+6. 
+INSERT INTO grades(gCRN, gRIN, grade) VALUES(41336, 661963855, 91);
+INSERT INTO grades(gCRN, gRIN, grade) VALUES(40331, 661963855, 96);
+INSERT INTO grades(gCRN, gRIN, grade) VALUES(40331, 661864865, 96);
+INSERT INTO grades(gCRN, gRIN, grade) VALUES(41336, 661864865, 92);
+INSERT INTO grades(gCRN, gRIN, grade) VALUES(40331, 661964765, 97);
+INSERT INTO grades(gCRN, gRIN, grade) VALUES(40377, 661964765, 92);
+INSERT INTO grades(gCRN, gRIN, grade) VALUES(40377, 661964865, 96);
+INSERT INTO grades(gCRN, gRIN, grade) VALUES(40331, 661964865, 93);
+INSERT INTO grades(gCRN, gRIN, grade) VALUES(43532, 661964865, 90);
+INSERT INTO grades(gCRN, gRIN, grade) VALUES(43532, 661964765, 90);
+
+7. 
+ SELECT 
+   RIN, lname, RCSID, fname
+ FROM
+   students
+ORDER BY 
+   RIN, lname, RCSID, fname;
+
+
+8. SELECT DISTINCT
+  s.RIN, s.fname, s.lname, s.street,
+  s.city, s.state, s.zip
+FROM
+  grades g, students s
+WHERE 
+  g.gRIN = s.RIN 
+  and g.grade > 90;
+
+9.
+
+SELECT 
+  c.title, avg(g.grade) as averageGrade
+FROM
+  grades g, courses c
+WHERE
+  g.gCRN = c.CRN
+GROUP BY 
+  g.gCRN, c.title;
+
+10.
+
+SELECT 
+  c.title, count(g.gRIN) as numStudents
+FROM  
+  grades g, courses c
+WHERE 
+  g.gCRN = c.crn
+GROUP BY
+  g.gCRN, c.title;
