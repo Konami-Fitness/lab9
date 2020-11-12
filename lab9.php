@@ -1,181 +1,57 @@
 <?php
-interface operations {
-  public function operate();
-  public function getEquation();
+
+$servername = "localhost";
+$username = "username";
+$password = "password";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
 }
 
-abstract class Operation1 {
-  protected $operand_1;
-  public function __construct($o1) {
-		if (strcmp($o1, 'pi') == 0) {
-			$o1 = pi();
-		} else if (strcmp($o1, 'e') == 0) {
-			$o1 = exp(1);
-		}
-    if (!is_numeric($o1)) {
-      throw new Exception('Non-numeric operand.');
-    }
-    $this->operand_1 = $o1;
-  }
+// Create database
+$sql = "CREATE DATABASE students";
+if ($conn->query($sql) === TRUE) {
+  echo "Database created successfully";
+} else {
+  echo "Error creating database: " . $conn->error;
+  // throw new Exception('Error creating database');
 }
 
-class Square extends Operation1 implements operations {
-  public function operate() {
-      return pow($this->operand_1, 2);
-  }
-  public function getEquation() {
-    return $this->operand_1 . '^2 = ' . $this->operate();
-  }
-}
+$conn->close();
 
-class SquareRoot extends Operation1 implements operations {
-  public function operate() {
-      return sqrt($this->operand_1);
-  }
-  public function getEquation() {
-    return 'sqrt(' . $this->operand_1 . ') = ' . $this->operate();
-  }
-}
-
-class Log10 extends Operation1 implements operations {
-  public function operate() {
-    return log10($this->operand_1);
-  }
-  public function getEquation() {
-    return 'log10(' . $this->operand_1 .') = ' . $this->operate();
-  }
-}
-
-class Ln extends Operation1 implements operations {
-  public function operate() {
-    return log($this->operand_1, exp(1));
-  }
-  public function getEquation() {
-    return 'ln(' . $this->operand_1 .') = ' . $this->operate();
-  }
-}
-
-class Tenexp extends Operation1 implements operations {
-  public function operate() {
-    return pow(10, $this->operand_1);
-  }
-
-  public function getEquation() {
-    return '10^' . $this->operand_1 . ' = ' . $this->operate();
-  }
-}
-
-class Eexp extends Operation1 implements operations {
-  public function operate() {
-    return exp($this->operand_1);
-  }
-  public function getEquation() {
-    return 'e^' . $this->operand_1 . ' = ' . $this->operate();
-  }
-}
-
-class Sin extends Operation1 implements operations {
-  public function operate() {
-    return sin($this->operand_1);
-  }
-  public function getEquation() {
-    return 'sin(' . $this->operand_1 . ') = ' . $this->operate();
-  }
-}
-
-class Cos extends Operation1 implements operations {
-  public function operate() {
-    return cos($this->operand_1);
-  }
-  public function getEquation() {
-    return 'cos(' . $this->operand_1 . ') = ' . $this->operate();
-  }
-}
-
-class Tan extends Operation1 implements operations {
-  public function operate() {
-    return tan($this->operand_1);
-  }
-  public function getEquation() {
-    return 'tan(' . $this->operand_1 . ') = ' . $this->operate();
-  }
-}
-
-abstract class Operation2 {
-  protected $operand_1;
-  protected $operand_2;
-  public function __construct($o1, $o2) {
-    // Make sure we're working with numbers...
-		if (strcmp($o1, 'pi') == 0) {
-			$o1 = pi();
-		} else if (strcmp($o1, 'e') == 0) {
-			$o1 = exp(1);
-		}
-		if (strcmp($o2, 'pi') == 0) {
-			$o2 = pi();
-		} else if (strcmp($o2, 'e') == 0) {
-			$o2 = exp(1);
-		}
-    if (!is_numeric($o1) || !is_numeric($o2)) {
-      throw new Exception('Non-numeric operand.');
-    }
-
-    // Assign passed values to member variables
-    $this->operand_1 = $o1;
-    $this->operand_2 = $o2;
-  }
-}
-
-// Addition subclass inherits from Operation2
-class Addition extends Operation2 implements operations {
-  public function operate() {
-    return $this->operand_1 + $this->operand_2;
-  }
-  public function getEquation() {
-    return $this->operand_1 . ' + ' . $this->operand_2 . ' = ' . $this->operate();
-  }
-}
+// interface operations {
+//   public function operate();
+//   public function getEquation();
+// }
+//
+// abstract class Operation1 {
+//   protected $operand_1;
+//   public function __construct($o1) {
+// 		if (strcmp($o1, 'pi') == 0) {
+// 			$o1 = pi();
+// 		} else if (strcmp($o1, 'e') == 0) {
+// 			$o1 = exp(1);
+// 		}
+//     if (!is_numeric($o1)) {
+//       throw new Exception('Non-numeric operand.');
+//     }
+//     $this->operand_1 = $o1;
+//   }
+// }
+//
+// class Square extends Operation1 implements operations {
+//   public function operate() {
+//       return pow($this->operand_1, 2);
+//   }
+//   public function getEquation() {
+//     return $this->operand_1 . '^2 = ' . $this->operate();
+//   }
+// }
 
 
-// Add subclasses for Subtraction, Multiplication and Division here
-class Subtraction extends Operation2 implements operations {
-  public function operate() {
-    return $this->operand_1 - $this->operand_2;
-  }
-  public function getEquation() {
-    return $this->operand_1 . ' - ' . $this->operand_2 . ' = ' . $this->operate();
-  }
-}
-
-class Multiplication extends Operation2 implements operations {
-  public function operate() {
-    return $this->operand_1 * $this->operand_2;
-  }
-  public function getEquation() {
-    return $this->operand_1 . ' * ' . $this->operand_2 . ' = ' . $this->operate();
-  }
-}
-
-class Division extends Operation2 implements operations {
-  public function operate() {
-		if ($this->operand_2 == 0) {
-      throw new Exception('Can\'t divide by zero!');
-    }
-    return $this->operand_1 / $this->operand_2;
-  }
-  public function getEquation() {
-    return $this->operand_1 . ' / ' . $this->operand_2 . ' = ' . $this->operate();
-  }
-}
-
-class ExponentClass extends Operation2 implements operations {
-  public function operate() {
-    return pow($this->operand_1, $this->operand_2);
-  }
-  public function getEquation() {
-    return $this->operand_1 . '^' . $this->operand_2 . ' = ' . $this->operate();
-  }
-}
 
 //Some debugs - uncomment these to see what is happening...
 // echo '$_POST print_r=>',print_r($_POST);
@@ -207,58 +83,6 @@ class ExponentClass extends Operation2 implements operations {
     if (isset($_POST['add']) && $_POST['add'] == 'Add') {
       $op = new Addition($o1, $o2);
     }
-
-    if (isset($_POST['sub']) && $_POST['sub'] == 'Subtract') {
-      $op = new Subtraction($o1, $o2);
-    }
-
-    if (isset($_POST['divi']) && $_POST['divi'] == 'Divide') {
-      $op = new Division($o1, $o2);
-    }
-
-    if (isset($_POST['mult']) && $_POST['mult'] == 'Multiply') {
-      $op = new Multiplication($o1, $o2);
-    }
-
-    if (isset($_POST['square']) && $_POST['square'] == 'Square') {
-      $op = new Square($o1);
-    }
-
-		if (isset($_POST['sqrt']) && $_POST['sqrt'] == 'Sqrt') {
-      $op = new SquareRoot($o1);
-    }
-
-    if (isset($_POST['expo']) && $_POST['expo'] == 'Exponent') {
-      $op = new ExponentClass($o1, $o2);
-    }
-
-    if (isset($_POST['log10']) && $_POST['log10'] == 'Log10') {
-      $op = new Log10($o1);
-    }
-
-    if (isset($_POST['ln']) && $_POST['ln'] == 'Ln') {
-      $op = new Ln($o1);
-    }
-
-    if (isset($_POST['tenexp']) && $_POST['tenexp'] == '10^x') {
-      $op = new Tenexp($o1);
-    }
-
-    if (isset($_POST['eexp']) && $_POST['eexp'] == 'e^x') {
-      $op = new Eexp($o1);
-    }
-
-    if (isset($_POST['sin']) && $_POST['sin'] == 'Sin') {
-      $op = new Sin($o1);
-    }
-
-    if (isset($_POST['cos']) && $_POST['cos'] == 'Cos') {
-      $op = new Cos($o1);
-    }
-
-    if (isset($_POST['tan']) && $_POST['tan'] == 'Tan') {
-      $op = new Tan($o1);
-    }
   }
   catch (Exception $e) {
     $err[] = $e->getMessage();
@@ -268,13 +92,13 @@ class ExponentClass extends Operation2 implements operations {
 <!doctype html>
 <html>
 	<head>
-		<title>Konami Calculator</title>
-		<link rel=stylesheet href="calculator.css"/>
+		<title>Konami Grade Book</title>
+		<link rel=stylesheet href="lab9.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&family=Raleway&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<h1>Konami Calculator</h1>
+		<h1>Konami Grade Book</h1>
     <div class="calcbox">
       <pre id="result">
   	  <?php
@@ -293,7 +117,7 @@ class ExponentClass extends Operation2 implements operations {
   	  ?>
   	  </pre>
       <br>
-  	  <form method="post" action="calculator.php">
+  	  <form method="post" action="lab9.php">
   	    <input type="text" name="op1" id="name" value="" />
   	    <input type="text" name="op2" id="name" value="" />
   	    <br/>
