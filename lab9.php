@@ -53,9 +53,9 @@ function insertGrade($g1,$g2,$g3,$g4,$dbconn) {
 function insertCourse($o1,$o2,$o3,$o4,$o5,$o6,$dbconn) {
   $sql = 'INSERT INTO courses VALUES(' .
   $o1 . ',' .
-  $o2 . ',' .
+  '\'' . $o2 . '\'' . ',' .
   $o3 . ',' .
-  $o4 . ',' .
+  '\'' . $o4 . '\'' . ',' .
   $o5 . ',' .
   $o6 . ')';
   $result = $dbconn->query($sql);
@@ -64,9 +64,17 @@ function insertCourse($o1,$o2,$o3,$o4,$o5,$o6,$dbconn) {
 function insertStudent($rin,$rcsid,$fname,$lname,$alias,$phone,$street,$city,
     $state,$zip,$dbconn) {
 
-  $sql = 'INSERT INTO students VALUES(' . $rin . ',' . $rcsid . ',' . $fname .
-      ',' . $lname . ',' . $alias . ',' . $phone . ',' . $street . ',' . $city .
-      ',' . $state . ',' . $zip . ')';
+  $sql = 'INSERT INTO students VALUES(
+  ' . $rin . ',' 
+  . '\'' . $rcsid . '\'' . ',' 
+  . '\'' . $fname . '\'' . ',' 
+  . '\'' . $lname . '\'' . ',' 
+  . '\'' . $alias . '\'' . ',' 
+  . $phone . ',' 
+  . '\'' . $street . '\'' . ',' 
+  . '\'' . $city . '\'' . ',' 
+  . '\'' . $state . '\'' .  ',' 
+  . $zip . ')';
   echo $sql;
   $result = $dbconn->query($sql);
   echo "insertStudent() called";
