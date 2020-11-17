@@ -1,26 +1,35 @@
 <?php
 
 $servername = "localhost";
-$username = "username";
-$password = "password";
+$username = "teddy";
+$password = "itws";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password);
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+try {
+  $dbconn = new PDO('mysql:host=localhost;dbname=test2',$username,$password);
+  $dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  echo "Connected successfully";
+} catch (PDOException $e){
+  echo "Connection failed: " . $e->getMessage();
 }
+
+
+// $dbconn = new mysqli($servername, $username, $password);
+// Check connection
+
+// if ($dbconn->connect_error) {
+//   die("Connection failed: " . $dbconn->connect_error);
+// }
 
 // Create database
-$sql = "CREATE DATABASE students";
-if ($conn->query($sql) === TRUE) {
-  echo "Database created successfully";
-} else {
-  echo "Error creating database: " . $conn->error;
-  // throw new Exception('Error creating database');
-}
+// $sql = "CREATE TABLE students(id int AUTO_INCREMENT, PRIMARY KEY(id))";
+// if ($dbconn->query($sql) === TRUE) {
+//   echo "Table created successfully";
+// } else {
+//   echo "Error creating table: ";
+//   // throw new Exception('Error creating database');
+// }
 
-$conn->close();
 
 // interface operations {
 //   public function operate();
