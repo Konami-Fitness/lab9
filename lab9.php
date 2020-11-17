@@ -22,7 +22,6 @@ ORDER BY
    RIN, lname, RCSID, fname';
    $q3 = $dbconn->query($sql3);
  foreach($q3 as $row) {
-      print_r('<br>');
       print_r($row['RIN'] . ' ');   
             print_r($row['lname'] . ' ');   
       print_r($row['RCSID'] . ' ');   
@@ -43,7 +42,6 @@ WHERE
   and g.grade > 90';
    $q3 = $dbconn->query($sql3);
  foreach($q3 as $row) {
-      print_r('<br>');
       print_r($row['RIN'] . ' ');   
             print_r($row['fname'] . ' ');   
       print_r($row['lname'] . ' ');   
@@ -64,7 +62,6 @@ function avgGrade($dbconn) {
           GROUP BY g.CRN, c.title';
   $result = $dbconn->query($sql);
   foreach($result as $row) {
-    print_r('<br>');
     print_r($row['title'] . ' ');
     print_r($row['averageGrade'] . ' ');
     print_r('<br>');
@@ -78,7 +75,6 @@ function numStudents($dbconn) {
           GROUP BY g.crn, c.title';
   $result = $dbconn->query($sql);
   foreach($result as $row) {
-    print_r('<br>');
     print_r($row['title'] . ' ');
     print_r($row['numStudents'] . ' ');
     print_r('<br>');
@@ -203,10 +199,23 @@ try {
     <h1>Konami Grade Book</h1>
     <div class="calcbox">
 
+      <h2>List of students</h2>
       <?php
       listStudents($dbconn);
+      ?>
+
+      <h2>List of students who have an A</h2>
+      <?php
       listAs($dbconn);
+      ?>
+
+      <h2>Average grades</h2>
+      <?php
       avgGrade($dbconn);
+      ?>
+
+      <h2>Number of students in each course</h2>
+      <?php
       numStudents($dbconn);
       ?>
 
