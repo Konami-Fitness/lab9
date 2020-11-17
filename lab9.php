@@ -25,19 +25,22 @@ try {
 // }
 //----------------------------------------------------------------------//
 
-  if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $o1 = $_POST['op1'];
-    $o2 = $_POST['op2'];
-    $o3 = $_POST['op3'];
-    $o4 = $_POST['op4'];
-    $o5 = $_POST['op5'];
-    $o6 = $_POST['op6'];
-    $g1 = $_POST['gp1'];
-    $g2 = $_POST['gp2'];
-    $g3 = $_POST['gp3'];
-    $g4 = $_POST['gp4'];
+  // if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['insCourse']) {
+  //   $o1 = $_POST['op1'];
+  //   $o2 = $_POST['op2'];
+  //   $o3 = $_POST['op3'];
+  //   $o4 = $_POST['op4'];
+  //   $o5 = $_POST['op5'];
+  //   $o6 = $_POST['op6'];
+  // }
 
-  }
+  // if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['insGrade']) {
+  //   $g1 = $_POST['gp1'];
+  //   $g2 = $_POST['gp2'];
+  //   $g3 = $_POST['gp3'];
+  //   $g4 = $_POST['gp4'];
+
+  // }
   $err = Array();
 
   function insertGrade($g1,$g2,$g3,$g4,$dbconn) {
@@ -62,10 +65,20 @@ try {
 
   try {
     if (isset($_POST['insCourse']) && $_POST['insCourse'] == 'Insert Course') {
+      $o1 = $_POST['op1'];
+      $o2 = $_POST['op2'];
+      $o3 = $_POST['op3'];
+      $o4 = $_POST['op4'];
+      $o5 = $_POST['op5'];
+      $o6 = $_POST['op6'];
       insertCourse($o1,$o2,$o3,$o4,$o5,$o6,$dbconn);
       }
 
     if (isset($_POST['insGrade']) && $_POST['insGrade'] == 'Insert Grade') {
+      $g1 = $_POST['gp1'];
+      $g2 = $_POST['gp2'];
+      $g3 = $_POST['gp3'];
+      $g4 = $_POST['gp4'];
       insertGrade($g1,$g2,$g3,$g4,$dbconn);
       }
 
