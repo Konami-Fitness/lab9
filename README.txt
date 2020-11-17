@@ -16,6 +16,6 @@ vairables based on the number of input fields. Then those variables are concaten
 
 6:
 
-7,8,9,10:
+7,8,9,10: For each of the lists, we put the sql code into a function, followed by foreach and print_r statements for the output. Then, we called these functions in our HTML to output the lists onto the page.
 
 
