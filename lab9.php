@@ -30,17 +30,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ct = $_POST['columntype'];
     $nn = $_POST['notnull'];
     $ai = $_POST['auto-inc'];
-    $isrin = $_POST['rin'];
-    $isrcsid = $_POST['rcsid'];
-    $isfname = $_POST['fname'];
-    $islname = $_POST['lname'];
-    $isalias = $_POST['alias'];
-    $isphone = $_POST['phone'];
-    $isstreet = $_POST['street'];
-    $iscity = $_POST['city'];
-    $isstate = $_POST['state'];
-    $iszip = $_POST['zip'];
-    $isdbconn = $_POST['dbconn'];
+    $rin = $_POST['rin'];
+    $rcsid = $_POST['rcsid'];
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $alias = $_POST['alias'];
+    $phone = $_POST['phone'];
+    $street = $_POST['street'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $zip = $_POST['zip'];
   }
     $err = Array();
 
@@ -72,24 +71,22 @@ function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
 function insertStudent($rin,$rcsid,$fname,$lname,$alias,$phone,$street,$city,
     $state,$zip,$dbconn) {
 
-  $sql = "INSERT INTO student VALUES($rin,$rcsid,$fname,$lname,$alias,$phone,
-      $street,$city,$state,$zip,$dbconn)";
-
+  $sql = 'INSERT INTO grades VALUES(' . $rin . ',' . $rcsid . ',' . $fname .
+      ',' . $lname . ',' . $alias . ',' . $phone . ',' . $street . ',' . $city .
+      ',' . $state . ',' . $zip . ')';
   echo $sql;
   $result = $dbconn->query($sql);
-  echo "insertCourse() called";
+  echo "insertStudent() called";
 }
-
-
-
-
 
 
  try {
     if (isset($_POST['addCol']) && $_POST['addCol'] == 'add column') {
       alterTable($tn,$cn,$ct,$nn,$ai, $dbconn);
     }
-
+    if (isset($_POST['insertStudent']) && $_POST['insertStudent'] == 'insert student') {
+      insertStudent($rin,$rcsid,$fname,$lname,$alias,$phone,$street,$city, $state,$zip,$dbconn);
+    }
 
   }
   catch (Exception $e) {
@@ -118,7 +115,7 @@ function insertStudent($rin,$rcsid,$fname,$lname,$alias,$phone,$street,$city,
 
   	  </pre>
       <br>
-  	  <form method="post" action="main.php">
+  	  <form method="post" action="lab9.php">
   	    <input type="text" name="tablename" id="name" value="" />
   	    <input type="text" name="columnname" id="name" value="" />
         <input type="text" name="columntype" id="name" value="" />
