@@ -25,7 +25,7 @@ form {
 	width: 500px;
 }
 
-input[type=text] {
+input[type=text], input[type=number] {
 	height: 30px;
   border: 1px solid #8f8fa1;
   border-radius: 3px;
@@ -48,7 +48,7 @@ input[type=submit] {
 .calcbox {
 	margin: auto;
 	width: 570px;
-	height: 300px;
+	/* height: 300px; */
 	margin-top: 50px;
 	margin-bottom: 35px;
 	padding: 32px;
