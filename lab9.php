@@ -30,7 +30,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ct = $_POST['columntype'];
     $nn = $_POST['notnull'];
     $ai = $_POST['auto-inc'];
-
+    $isrin = $_POST['rin'];
+    $isrcsid = $_POST['rcsid'];
+    $isfname = $_POST['fname'];
+    $islname = $_POST['lname'];
+    $isalias = $_POST['alias'];
+    $isphone = $_POST['phone'];
+    $isstreet = $_POST['street'];
+    $iscity = $_POST['city'];
+    $isstate = $_POST['state'];
+    $iszip = $_POST['zip'];
+    $isdbconn = $_POST['dbconn'];
   }
     $err = Array();
 
