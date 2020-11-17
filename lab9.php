@@ -32,6 +32,11 @@ try {
     $o4 = $_POST['op4'];
     $o5 = $_POST['op5'];
     $o6 = $_POST['op6'];
+    $g1 = $_POST['gp1'];
+    $g2 = $_POST['gp2'];
+    $g3 = $_POST['gp3'];
+    $g4 = $_POST['gp4'];
+
   }
   $err = Array();
 
@@ -61,7 +66,7 @@ try {
       }
 
     if (isset($_POST['insGrade']) && $_POST['insGrade'] == 'Insert Grade') {
-      insertCourse($o1,$o2,$o3,$o4,$dbconn);
+      insertGrade($g1,$g2,$g3,$g4,$dbconn);
       }
 
   }
@@ -119,13 +124,13 @@ try {
       <h2>Insert Courses</h2>
       <form method="post" action="lab9.php" id="Grades_Insert">
         <label for="id">Id:</label><br>
-        <input type="text" name="op1" id="id" value="" /><br>
+        <input type="text" name="gp1" id="id" value="" /><br>
         <label for="crn">CRN:</label><br>
-        <input type="text" name="op2" id="crn" value="" /><br>
+        <input type="text" name="gp2" id="crn" value="" /><br>
         <label for="rin">RIN:</label><br>
-        <input type="text" name="op3" id="rin" value="" /><br>
+        <input type="text" name="gp3" id="rin" value="" /><br>
         <label for="grade">Grade:</label><br>
-        <input type="text" name="op4" id="grade" value="" /><br>
+        <input type="text" name="gp4" id="grade" value="" /><br>
         <input type="submit" name="insGrade" value="Insert Grade"/>
         <br/>
       </form>
