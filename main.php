@@ -29,13 +29,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cn = $_POST['columnname'];
     $ct = $_POST['columntype'];
     $nn = $_POST['notnull'];
-    $ai = $_POST['auto-increment'];
+    $ai = $_POST['auto-inc'];
 
   }
     $err = Array();
 
 
-function alterTable() {
+function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
  if($nn == 'y') {
     $nn = 'NOT NULL';
   } else {
@@ -47,7 +47,7 @@ function alterTable() {
   } else {
     $ai = '';
   }
- $sql2 = 'ALTER TABLE ' . $tn .' '. $cn . ' '.  $nn . ' '. $an;
+ $sql2 = 'ALTER TABLE ' . $tn .' '. $cn . ' '.  $nn . ' '. $ai;
 
 //ex2
  
@@ -63,7 +63,7 @@ function alterTable() {
 
  try {
     if (isset($_POST['addCol']) && $_POST['addCol'] == 'add column') {
-      alterTable();
+      alterTable($tn,$cn,$ct,$nn,$ai, $dbconn);
     }
 
 
