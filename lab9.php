@@ -24,6 +24,7 @@ try {
 //   echo "Error creating table: ";
 // }
 //----------------------------------------------------------------------//
+
   if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $o1 = $_POST['op1'];
     $o2 = $_POST['op2'];
@@ -34,23 +35,35 @@ try {
   }
   $err = Array();
 
-  function insertCourse($o1,$o2,$o3,$o4,$o5,$o6,$dbconn) {
-      $sql = 'INSERT INTO courses VALUES(' . 
-      $o1 . ',' .
-      $o2 . ',' .
-      $o3 . ',' .
-      $o4 . ',' .
-      $o5 . ',' .
-      $o6 . ')';
-    echo $sql;
+  function insertGrade($g1,$g2,$g3,$g4,$dbconn) {
+    $sql = 'INSERT INTO grades VALUES(' .
+    $g1 . ',' .
+    $g2 . ',' .
+    $g3 . ',' .
+    $g4 . ')';
     $result = $dbconn->query($sql);
-    echo "insertCourse() called";
+  }
+
+  function insertCourse($o1,$o2,$o3,$o4,$o5,$o6,$dbconn) {
+    $sql = 'INSERT INTO courses VALUES(' . 
+    $o1 . ',' .
+    $o2 . ',' .
+    $o3 . ',' .
+    $o4 . ',' .
+    $o5 . ',' .
+    $o6 . ')';
+    $result = $dbconn->query($sql);
   }
 
   try {
     if (isset($_POST['insCourse']) && $_POST['insCourse'] == 'Insert Course') {
       insertCourse($o1,$o2,$o3,$o4,$o5,$o6,$dbconn);
       }
+
+    if (isset($_POST['insGrade']) && $_POST['insGrade'] == 'Insert Grade') {
+      insertCourse($o1,$o2,$o3,$o4,$dbconn);
+      }
+
   }
   catch (PDOException $e) {
     echo $e->getMessage();
@@ -101,6 +114,21 @@ try {
         <input type="text" name="op6" id="year" value="" /><br>
         <input type="submit" name="insCourse" value="Insert Course"/>
         <br/>
+      </form>
+
+      <h2>Insert Courses</h2>
+      <form method="post" action="lab9.php" id="Grades_Insert">
+        <label for="id">Id:</label><br>
+        <input type="text" name="op1" id="id" value="" /><br>
+        <label for="crn">CRN:</label><br>
+        <input type="text" name="op2" id="crn" value="" /><br>
+        <label for="rin">RIN:</label><br>
+        <input type="text" name="op3" id="rin" value="" /><br>
+        <label for="grade">Grade:</label><br>
+        <input type="text" name="op4" id="grade" value="" /><br>
+        <input type="submit" name="insGrade" value="Insert Grade"/>
+        <br/>
+      </form>
         <!-- Only one of these will be set with their respective value at a time -->
         <div class="left">
           <p>1 Input</p>
