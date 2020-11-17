@@ -6,29 +6,27 @@ $password = "itws";
 
 // Create connection
 try {
-  $dbconn = new PDO('mysql:host=localhost;dbname=Gradebookdb',$username,$password);
+  $dbconn = new PDO('mysql:host=localhost;dbname=test2',$username,$password);
   $dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  echo "Connected successfully";
 } catch (PDOException $e) {
   echo "Connection failed: " . $e->getMessage();
 }
 
 function listStudents($dbconn) {
-    $sql3 = 'SELECT 
-   RIN, lname, RCSID, fname
- FROM
-   students
-ORDER BY 
-   RIN, lname, RCSID, fname';
-   $q3 = $dbconn->query($sql3);
- foreach($q3 as $row) {
-      print_r($row['RIN'] . ' ');   
-            print_r($row['lname'] . ' ');   
-      print_r($row['RCSID'] . ' ');   
-      print_r($row['fname'] . ' ');   
+  $sql3 = 'SELECT
+    RIN, lname, RCSID, fname
+  FROM
+    students
+  ORDER BY
+    RIN, lname, RCSID, fname';
+    $q3 = $dbconn->query($sql3);
+  foreach($q3 as $row) {
+      print_r($row['RIN'] . ' ');
+            print_r($row['lname'] . ' ');
+      print_r($row['RCSID'] . ' ');
+      print_r($row['fname'] . ' ');
       print_r('<br>');
-
-    }  
+    }
   }
 
 function listAs($dbconn) {
@@ -37,22 +35,22 @@ function listAs($dbconn) {
   s.city, s.state, s.zip
 FROM
   grades g, students s
-WHERE 
-  g.RIN = s.RIN 
+WHERE
+  g.RIN = s.RIN
   and g.grade > 90';
    $q3 = $dbconn->query($sql3);
  foreach($q3 as $row) {
-      print_r($row['RIN'] . ' ');   
-            print_r($row['fname'] . ' ');   
-      print_r($row['lname'] . ' ');   
-      print_r($row['street'] . ' ');   
-            print_r($row['city'] . ' ');   
-      print_r($row['state'] . ' ');   
-      print_r($row['zip'] . ' ');   
+      print_r($row['RIN'] . ' ');
+            print_r($row['fname'] . ' ');
+      print_r($row['lname'] . ' ');
+      print_r($row['street'] . ' ');
+            print_r($row['city'] . ' ');
+      print_r($row['state'] . ' ');
+      print_r($row['zip'] . ' ');
 
       print_r('<br>');
 
-    }  
+    }
   }
 
 function avgGrade($dbconn) {
@@ -105,19 +103,17 @@ function insertStudent($rin,$rcsid,$fname,$lname,$alias,$phone,$street,$city,
     $state,$zip,$dbconn) {
 
   $sql = 'INSERT INTO students VALUES(
-  ' . $rin . ',' 
-  . '\'' . $rcsid . '\'' . ',' 
-  . '\'' . $fname . '\'' . ',' 
-  . '\'' . $lname . '\'' . ',' 
-  . '\'' . $alias . '\'' . ',' 
-  . $phone . ',' 
-  . '\'' . $street . '\'' . ',' 
-  . '\'' . $city . '\'' . ',' 
-  . '\'' . $state . '\'' .  ',' 
+  ' . $rin . ','
+  . '\'' . $rcsid . '\'' . ','
+  . '\'' . $fname . '\'' . ','
+  . '\'' . $lname . '\'' . ','
+  . '\'' . $alias . '\'' . ','
+  . $phone . ','
+  . '\'' . $street . '\'' . ','
+  . '\'' . $city . '\'' . ','
+  . '\'' . $state . '\'' .  ','
   . $zip . ')';
-  echo $sql;
   $result = $dbconn->query($sql);
-  echo "insertStudent() called";
 }
 
 function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
