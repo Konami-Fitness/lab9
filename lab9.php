@@ -63,6 +63,26 @@ try {
     $result = $dbconn->query($sql);
   }
 
+  function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
+    if($nn == 'y') {
+      $nn = 'NOT NULL';
+    } else {
+      $nn = '';
+    }
+
+    if($ai == 'y') {
+      $ai = 'AUTO_INCREMENT';
+    } else {
+      $ai = '';
+    }
+    echo $tn;
+    echo $nn;
+    echo $ai;
+    $sql2 = 'ALTER TABLE ' . $tn . ' ADD '. $cn . ' '. $ct . ' ' . $nn . ' '. $ai;
+
+    $q2 = $dbconn->query($sql2);
+  }
+
   try {
     if (isset($_POST['insCourse']) && $_POST['insCourse'] == 'Insert Course') {
       $o1 = $_POST['op1'];
@@ -81,6 +101,15 @@ try {
       $g4 = $_POST['gp4'];
       insertGrade($g1,$g2,$g3,$g4,$dbconn);
       }
+
+    if (isset($_POST['addCol']) && $_POST['addCol'] == 'add column') {
+      $tn = $_POST['tablename'];
+      $cn = $_POST['columnname'];
+      $ct = $_POST['columntype'];
+      $nn = $_POST['notnull'];
+      $ai = $_POST['auto-inc'];
+      alterTable($tn,$cn,$ct,$nn,$ai, $dbconn);
+    }
 
   }
   catch (PDOException $e) {
@@ -134,7 +163,7 @@ try {
         <br/>
       </form>
 
-      <h2>Insert Courses</h2>
+      <h2>Insert Grades</h2>
       <form method="post" action="lab9.php" id="Grades_Insert">
         <label for="id">Id:</label><br>
         <input type="text" name="gp1" id="id" value="" /><br>
@@ -147,38 +176,16 @@ try {
         <input type="submit" name="insGrade" value="Insert Grade"/>
         <br/>
       </form>
-        <!-- Only one of these will be set with their respective value at a time -->
-        <div class="left">
-          <p>1 Input</p>
-          <div class="leftrow">
-            <input type="submit" name="add" value="Add" />
-            <input type="submit" name="sub" value="Subtract" />
-            <input type="submit" name="mult" value="Multiply" />
-          </div>
-          <div class="leftrow">
-            <input type="submit" name="divi" value="Divide" />
-            <input type="submit" name="expo" value="Exponent" />
-            <input type="submit" name="square" value="Square" />
-          </div>
-        </div>
-        <div class="right">
-          <p>2 Inputs</p>
-          <div class="rightrow">
-            <input type="submit" name="sqrt" value="Sqrt" />
-            <input type="submit" name="log10" value="Log10" />
-            <input type="submit" name="ln" value="Ln" />
-          </div>
-          <div class="rightrow">
-            <input type="submit" name="tenexp" value="10^x" />
-            <input type="submit" name="eexp" value="e^x" />
-            <input type="submit" name="sin" value="Sin" />
-          </div>
-          <div class="rightrow">
-            <input type="submit" name="cos" value="Cos" />
-            <input type="submit" name="tan" value="Tan" />
-          </div>
-        </div>
+
+      <form method="post" action="lab9.php">
+        <input type="text" name="tablename" id="name" value="" />
+        <input type="text" name="columnname" id="name" value="" />
+        <input type="text" name="columntype" id="name" value="" />
+        <input type="text" name="notnull" id="name" value="" />
+        <input type="text" name="auto-inc" id="name" value="" />
+        <input type="submit" name="addCol" value="add column" />  
       </form>
+
     </div>
   </body>
 </html>
