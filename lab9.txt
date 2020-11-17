@@ -27,10 +27,10 @@ ADD year int(4) NOT NULL;
 
 3.
 
-CREATE TABLE grades(id int AUTO_INCREMENT, gCRN int(11), gRIN int(9), grade int(3) NOT NULL, 
-FOREIGN KEY(gCRN) REFERENCES courses(CRN) 
+CREATE TABLE grades(id int AUTO_INCREMENT, CRN int(11), RIN int(9), grade int(3) NOT NULL, 
+FOREIGN KEY(CRN) REFERENCES courses(CRN) 
 ON DELETE CASCADE ON UPDATE CASCADE, 
-FOREIGN KEY(gRIN) REFERENCES students(RIN)
+FOREIGN KEY(RIN) REFERENCES students(RIN)
 ON DELETE CASCADE ON UPDATE CASCADE,
 PRIMARY KEY(id));
 
@@ -49,16 +49,16 @@ INSERT INTO students VALUES(661964765, 'riggss', 'Shane', 'Riggs', 'Shane', 5349
 INSERT INTO students VALUES(661864865, 'claisseh', 'Henry', 'Claisse', 'Henry', 5343079961, 'Dole St', 'Miami', 'FL', 10514);
 
 6. 
-INSERT INTO grades(gCRN, gRIN, grade) VALUES(41336, 661963855, 91);
-INSERT INTO grades(gCRN, gRIN, grade) VALUES(40331, 661963855, 96);
-INSERT INTO grades(gCRN, gRIN, grade) VALUES(40331, 661864865, 96);
-INSERT INTO grades(gCRN, gRIN, grade) VALUES(41336, 661864865, 92);
-INSERT INTO grades(gCRN, gRIN, grade) VALUES(40331, 661964765, 97);
-INSERT INTO grades(gCRN, gRIN, grade) VALUES(40377, 661964765, 92);
-INSERT INTO grades(gCRN, gRIN, grade) VALUES(40377, 661964865, 96);
-INSERT INTO grades(gCRN, gRIN, grade) VALUES(40331, 661964865, 93);
-INSERT INTO grades(gCRN, gRIN, grade) VALUES(43532, 661964865, 90);
-INSERT INTO grades(gCRN, gRIN, grade) VALUES(43532, 661964765, 90);
+INSERT INTO grades(CRN, RIN, grade) VALUES(41336, 661963855, 91);
+INSERT INTO grades(CRN, RIN, grade) VALUES(40331, 661963855, 96);
+INSERT INTO grades(CRN, RIN, grade) VALUES(40331, 661864865, 96);
+INSERT INTO grades(CRN, RIN, grade) VALUES(41336, 661864865, 92);
+INSERT INTO grades(CRN, RIN, grade) VALUES(40331, 661964765, 97);
+INSERT INTO grades(CRN, RIN, grade) VALUES(40377, 661964765, 92);
+INSERT INTO grades(CRN, RIN, grade) VALUES(40377, 661964865, 96);
+INSERT INTO grades(CRN, RIN, grade) VALUES(40331, 661964865, 93);
+INSERT INTO grades(CRN, RIN, grade) VALUES(43532, 661964865, 90);
+INSERT INTO grades(CRN, RIN, grade) VALUES(43532, 661964765, 90);
 
 7. 
  SELECT 
@@ -75,7 +75,7 @@ ORDER BY
 FROM
   grades g, students s
 WHERE 
-  g.gRIN = s.RIN 
+  g.RIN = s.RIN 
   and g.grade > 90;
 
 9.
@@ -85,17 +85,17 @@ SELECT
 FROM
   grades g, courses c
 WHERE
-  g.gCRN = c.CRN
+  g.CRN = c.CRN
 GROUP BY 
-  g.gCRN, c.title;
+  g.CRN, c.title;
 
 10.
 
 SELECT 
-  c.title, count(g.gRIN) as numStudents
+  c.title, count(g.RIN) as numStudents
 FROM  
   grades g, courses c
 WHERE 
-  g.gCRN = c.crn
+  g.CRN = c.crn
 GROUP BY
-  g.gCRN, c.title;
+  g.CRN, c.title;

@@ -7,27 +7,39 @@ $password = "itws";
 // Create connection
 try {
   $dbconn = new PDO('mysql:host=localhost;dbname=websyslab9',$username,$password);
-  // change to websyslab9
   $dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
   echo "Connection failed: " . $e->getMessage();
 }
 
+function createGradesTable($dbconn) {
+  $sql = 'CREATE TABLE grades(id int AUTO_INCREMENT, CRN int(11), RIN int(9), grade int(3) NOT NULL, 
+FOREIGN KEY(CRN) REFERENCES courses(CRN) 
+ON DELETE CASCADE ON UPDATE CASCADE, 
+FOREIGN KEY(RIN) REFERENCES students(RIN)
+ON DELETE CASCADE ON UPDATE CASCADE,
+PRIMARY KEY(id))';
+
+$result = $dbconn->query($sql);
+echo "Grades table created";
+}
+
 function listStudents($dbconn) {
-  $sql3 = 'SELECT
-    RIN, lname, RCSID, fname
-  FROM
-    students
-  ORDER BY
-    RIN, lname, RCSID, fname';
-    $q3 = $dbconn->query($sql3);
-  foreach($q3 as $row) {
-      print_r($row['RIN'] . ' ');
-            print_r($row['lname'] . ' ');
-      print_r($row['RCSID'] . ' ');
-      print_r($row['fname'] . ' ');
+    $sql3 = 'SELECT 
+   RIN, lname, RCSID, fname
+ FROM
+   students
+ORDER BY 
+   RIN, lname, RCSID, fname';
+   $q3 = $dbconn->query($sql3);
+ foreach($q3 as $row) {
+      print_r($row['RIN'] . ' ');   
+            print_r($row['lname'] . ' ');   
+      print_r($row['RCSID'] . ' ');   
+      print_r($row['fname'] . ' ');   
       print_r('<br>');
-    }
+
+    }  
   }
 
 function listAs($dbconn) {
@@ -36,22 +48,22 @@ function listAs($dbconn) {
   s.city, s.state, s.zip
 FROM
   grades g, students s
-WHERE
-  g.RIN = s.RIN
+WHERE 
+  g.RIN = s.RIN 
   and g.grade > 90';
    $q3 = $dbconn->query($sql3);
  foreach($q3 as $row) {
-      print_r($row['RIN'] . ' ');
-            print_r($row['fname'] . ' ');
-      print_r($row['lname'] . ' ');
-      print_r($row['street'] . ' ');
-            print_r($row['city'] . ' ');
-      print_r($row['state'] . ' ');
-      print_r($row['zip'] . ' ');
+      print_r($row['RIN'] . ' ');   
+            print_r($row['fname'] . ' ');   
+      print_r($row['lname'] . ' ');   
+      print_r($row['street'] . ' ');   
+            print_r($row['city'] . ' ');   
+      print_r($row['state'] . ' ');   
+      print_r($row['zip'] . ' ');   
 
       print_r('<br>');
 
-    }
+    }  
   }
 
 function avgGrade($dbconn) {
@@ -87,6 +99,7 @@ function insertGrade($g1,$g2,$g3,$g4,$dbconn) {
   $g3 . ',' .
   $g4 . ')';
   $result = $dbconn->query($sql);
+  echo "Successfull inserted.";
 }
 
 function insertCourse($o1,$o2,$o3,$o4,$o5,$o6,$dbconn) {
@@ -98,23 +111,25 @@ function insertCourse($o1,$o2,$o3,$o4,$o5,$o6,$dbconn) {
   $o5 . ',' .
   $o6 . ')';
   $result = $dbconn->query($sql);
+  echo "Successfully inserted.";
 }
 
 function insertStudent($rin,$rcsid,$fname,$lname,$alias,$phone,$street,$city,
     $state,$zip,$dbconn) {
 
   $sql = 'INSERT INTO students VALUES(
-  ' . $rin . ','
-  . '\'' . $rcsid . '\'' . ','
-  . '\'' . $fname . '\'' . ','
-  . '\'' . $lname . '\'' . ','
-  . '\'' . $alias . '\'' . ','
-  . $phone . ','
-  . '\'' . $street . '\'' . ','
-  . '\'' . $city . '\'' . ','
-  . '\'' . $state . '\'' .  ','
+  ' . $rin . ',' 
+  . '\'' . $rcsid . '\'' . ',' 
+  . '\'' . $fname . '\'' . ',' 
+  . '\'' . $lname . '\'' . ',' 
+  . '\'' . $alias . '\'' . ',' 
+  . $phone . ',' 
+  . '\'' . $street . '\'' . ',' 
+  . '\'' . $city . '\'' . ',' 
+  . '\'' . $state . '\'' .  ',' 
   . $zip . ')';
   $result = $dbconn->query($sql);
+  echo "Successfully inserted.";
 }
 
 function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
@@ -135,6 +150,7 @@ function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
   $sql2 = 'ALTER TABLE ' . $tn . ' ADD '. $cn . ' '. $ct . ' ' . $nn . ' '. $ai;
 
   $q2 = $dbconn->query($sql2);
+  echo "Successfully altered";
 }
 
 try {
@@ -178,6 +194,10 @@ try {
     $nn = $_POST['notnull'];
     $ai = $_POST['auto-inc'];
     alterTable($tn,$cn,$ct,$nn,$ai, $dbconn);
+
+  if (isset($_POST['gradeButton']) && $_POST['gradeButton'] == 'Create Grades Table')  {
+    createGradesTable($dbconn);
+  }
   }
 } catch (PDOException $e) {
   echo $e->getMessage();
@@ -215,6 +235,10 @@ try {
       <?php
       numStudents($dbconn);
       ?>
+
+      <form method="post">
+        <input type="submit" name="gradeButton" class="button" value="Create Grades Table">
+      </form>
 
       <h2>Insert Courses</h2>
       <form method="post" action="lab9.php" id="Courses_Insert">
@@ -282,9 +306,9 @@ try {
         <input type="text" name="columnname" id="name" value="" /><br>
         <label for="tablename">Column type</label><br>
         <input type="text" name="columntype" id="name" value="" /><br>
-        <label for="tablename">Not null (y)</label><br>
+        <label for="tablename">Not null?</label><br>
         <input type="text" name="notnull" id="name" value="" /><br>
-        <label for="tablename">Auto incrmement (y)</label><br>
+        <label for="tablename">Auto incrmement?</label><br>
         <input type="text" name="auto-inc" id="name" value="" /><br>
         <input type="submit" name="addCol" value="Add column" />
       </form>
