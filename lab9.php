@@ -13,35 +13,33 @@ try {
   echo "Connection failed: " . $e->getMessage();
 }
 
-//Create database
-// $sql = "CREATE TABLE grades(id int AUTO_INCREMENT, crn int, rin int, grade int(3) NOT NULL,
-//     PRIMARY KEY(id), FOREIGN KEY (crn) REFERENCES courses(crn) ON DELETE CASCADE ON UPDATE CASCADE,
-//     FOREIGN KEY (rin) REFERENCES students(rin) ON DELETE CASCADE ON UPDATE CASCADE)";
+  function avgGrade($dbconn) {
+    $sql = 'SELECT c.title, avg(g.grade) as averageGrade
+            FROM grades g, courses c
+            WHERE g.CRN = c.CRN
+            GROUP BY g.CRN, c.title';
+    $result = $dbconn->query($sql);
+    foreach($result as $row) {
+      print_r('<br>');
+      print_r($row['title'] . ' ');
+      print_r($row['averageGrade'] . ' ');
+      print_r('<br>');
+    }
+  }
 
-// if (($result = $dbconn->query($sql)) !== FALSE) {
-//   echo "Table created successfully";
-// } else {
-//   echo "Error creating table: ";
-// }
-//----------------------------------------------------------------------//
-
-  // if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['insCourse']) {
-  //   $o1 = $_POST['op1'];
-  //   $o2 = $_POST['op2'];
-  //   $o3 = $_POST['op3'];
-  //   $o4 = $_POST['op4'];
-  //   $o5 = $_POST['op5'];
-  //   $o6 = $_POST['op6'];
-  // }
-
-  // if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['insGrade']) {
-  //   $g1 = $_POST['gp1'];
-  //   $g2 = $_POST['gp2'];
-  //   $g3 = $_POST['gp3'];
-  //   $g4 = $_POST['gp4'];
-
-  // }
-  $err = Array();
+  function numStudents($dbconn) {
+    $sql = 'SELECT c.title, count(g.RIN) as numStudents
+            FROM grades g, courses c
+            WHERE g.crn = c.crn
+            GROUP BY g.crn, c.title';
+    $result = $dbconn->query($sql);
+    foreach($result as $row) {
+      print_r('<br>');
+      print_r($row['title'] . ' ');
+      print_r($row['numStudents'] . ' ');
+      print_r('<br>');
+    }
+  } 
 
   function insertGrade($g1,$g2,$g3,$g4,$dbconn) {
     $sql = 'INSERT INTO grades VALUES(' .
@@ -128,23 +126,12 @@ try {
   <body>
     <h1>Konami Grade Book</h1>
     <div class="calcbox">
-      <pre id="result">
-      <?php
-        if (isset($op)) {
-          try {
-            echo $op->getEquation();
-          }
-          catch (Exception $e) {
-            $err[] = $e->getMessage();
-          }
-        }
-
-        foreach($err as $error) {
-            echo $error . "\n";
-        }
-      ?>
-      </pre>
       <br>
+      <?php
+      numStudents($dbconn);
+      avgGrade($dbconn);
+      ?>
+
       <h2>Insert Courses</h2>
       <form method="post" action="lab9.php" id="Courses_Insert">
         <label for="crn">CRN:</label><br>
@@ -177,13 +164,19 @@ try {
         <br/>
       </form>
 
+      <h2>Alter Table</h2>
       <form method="post" action="lab9.php">
-        <input type="text" name="tablename" id="name" value="" />
-        <input type="text" name="columnname" id="name" value="" />
-        <input type="text" name="columntype" id="name" value="" />
-        <input type="text" name="notnull" id="name" value="" />
-        <input type="text" name="auto-inc" id="name" value="" />
-        <input type="submit" name="addCol" value="add column" />  
+        <label for="tablename">Table name:</label><br>
+        <input type="text" name="tablename" id="name" value="" /><br>
+        <label for="tablename">Column name:</label><br>
+        <input type="text" name="columnname" id="name" value="" /><br>
+        <label for="tablename">Column type:</label><br>
+        <input type="text" name="columntype" id="name" value="" /><br>
+        <label for="tablename">Not null?:</label><br>
+        <input type="text" name="notnull" id="name" value="" /><br>
+        <label for="tablename">Auto incrmement?:</label><br>
+        <input type="text" name="auto-inc" id="name" value="" /><br>
+        <input type="submit" name="addCol" value="Add column" />  
       </form>
 
     </div>
