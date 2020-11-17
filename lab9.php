@@ -22,13 +22,15 @@ try {
 // }
 
 // Create database
-// $sql = "CREATE TABLE students(id int AUTO_INCREMENT, PRIMARY KEY(id))";
-// if ($dbconn->query($sql) === TRUE) {
-//   echo "Table created successfully";
-// } else {
-//   echo "Error creating table: ";
-//   // throw new Exception('Error creating database');
-// }
+$sql = "CREATE TABLE grades(id int AUTO_INCREMENT, crn int, rin int, grade int(3) NOT NULL,
+    PRIMARY KEY(id), FOREIGN KEY (crn) REFERENCES courses(crn) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (rin) REFERENCES students(rin) ON DELETE CASCADE ON UPDATE CASCADE)";
+
+if (($result = $dbconn->query($sql)) !== FALSE) {
+  echo "Table created successfully";
+} else {
+  echo "Error creating table: ";
+}
 
 
 // interface operations {
