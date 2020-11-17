@@ -47,7 +47,8 @@ function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
   } else {
     $ai = '';
   }
- $sql2 = 'ALTER TABLE ' . $tn .' '. $cn . ' '.  $nn . ' '. $ai;
+echo "string"; 
+$sql2 = 'ALTER TABLE ' . $tn . ' ADD '. $cn . ' '.  $nn . ' '. $ai;
 
 //ex2
  
