@@ -105,7 +105,7 @@ function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
         <input type="text" name="auto-inc" id="name" value="" />
 
         <input type="submit" name="addCol" value="add column" />	
-  			</div>
+  	
   	  </form>
     </div>
 	</body>
