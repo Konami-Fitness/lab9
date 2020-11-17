@@ -6,7 +6,8 @@ $password = "itws";
 
 // Create connection
 try {
-  $dbconn = new PDO('mysql:host=localhost;dbname=test2',$username,$password);
+  $dbconn = new PDO('mysql:host=localhost;dbname=websyslab9',$username,$password);
+  // change to websyslab9
   $dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
   echo "Connection failed: " . $e->getMessage();
@@ -281,9 +282,9 @@ try {
         <input type="text" name="columnname" id="name" value="" /><br>
         <label for="tablename">Column type</label><br>
         <input type="text" name="columntype" id="name" value="" /><br>
-        <label for="tablename">Not null?</label><br>
+        <label for="tablename">Not null (y)</label><br>
         <input type="text" name="notnull" id="name" value="" /><br>
-        <label for="tablename">Auto incrmement?</label><br>
+        <label for="tablename">Auto incrmement (y)</label><br>
         <input type="text" name="auto-inc" id="name" value="" /><br>
         <input type="submit" name="addCol" value="Add column" />
       </form>
