@@ -158,7 +158,7 @@ try {
   <body>
     <h1>Konami Grade Book</h1>
     <div class="calcbox">
-      <br>
+      
       <?php
       numStudents($dbconn);
       avgGrade($dbconn);
