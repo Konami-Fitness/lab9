@@ -1,56 +1,138 @@
 <?php
 
-$servernameDB = "localhost";
-$usernameDB = "shane";
-$passwordDB = "itws";
-$nameDB = "GradebookDB";
+$servername = "localhost";
+$username = "user";
+$password = "itws";
 
+// Create connection
 try {
-  // Create connection
-  $conn = new PDO("mysql:host=$servernameDB;dbname=GradebookDB", $usernameDB, $passwordDB);
-  // Check connection
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  // echo "Connected successfully";
-
-
-//   $sql = "INSERT INTO courses VALUES(40377, 'CSCI', 1200, 'Data Structures', 1, 2020);
-// INSERT INTO courses VALUES(41336, 'CSCI', 2300, 'Intro to Algorithms', 1, 2020);
-// INSERT INTO courses VALUES(40331, 'CSCI', 4380, 'Database Systems', 2, 2020);
-// INSERT INTO courses VALUES(43532, 'PSYC', 4730, 'Positive Psychology', 1, 2020);";
-$sample_crn = 11111;
-$sample_prefix = "'ITWS'";
-$sample_number = 1111;
-$sample_title = "'Example Course'";
-$sample_section = 1;
-$sample_year = 2020;
-$sql = "INSERT INTO courses VALUES(" . $sample_crn . "," .
-                                       $sample_prefix . "," .
-                                       $sample_number . "," .
-                                       $sample_title . "," .
-                                       $sample_section . "," .
-                                       $sample_year . ")";
-echo $sql;
-  $conn->exec($sql);
-  echo "INSERT_ successful";
-} 
-
-catch(PDOException $e) {
-  echo "<br> Something failed";
-  echo "<br>" . $e->getMessage();
+  $dbconn = new PDO('mysql:host=localhost;dbname=Gradebookdb',$username,$password);
+  $dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  echo "Connected successfully";
+} catch (PDOException $e){
+  echo "Connection failed: " . $e->getMessage();
 }
 
-$conn = null;
+//Create database
+// $sql = "CREATE TABLE grades(id int AUTO_INCREMENT, crn int, rin int, grade int(3) NOT NULL,
+//     PRIMARY KEY(id), FOREIGN KEY (crn) REFERENCES courses(crn) ON DELETE CASCADE ON UPDATE CASCADE,
+//     FOREIGN KEY (rin) REFERENCES students(rin) ON DELETE CASCADE ON UPDATE CASCADE)";
+
+// if (($result = $dbconn->query($sql)) !== FALSE) {
+//   echo "Table created successfully";
+// } else {
+//   echo "Error creating table: ";
+// }
+//----------------------------------------------------------------------//
+  if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $o1 = $_POST['op1'];
+    $o2 = $_POST['op2'];
+    $o3 = $_POST['op3'];
+    $o4 = $_POST['op4'];
+    $o5 = $_POST['op5'];
+    $o6 = $_POST['op6'];
+  }
+  $err = Array();
+
+  function insertCourse($o1,$o2,$o3,$o4,$o5,$o6,$dbconn) {
+      $sql = 'INSERT INTO courses Values(' . 
+      $o1 . ',' .
+      $o2 . ',' .
+      $o3 . ',' .
+      $o4 . ',' .
+      $o5 . ',' .
+      $o6 . ')';
+    echo $sql;
+    $dbconn->query($sql);
+    echo "insertCourse() called";
+  }
+
+  try {
+    if (isset($_POST['insCourse']) && $_POST['insCourse'] == 'Insert Course') {
+      insertCourse($o1,$o2,$o3,$o4,$o5,$o5,$o6,$dbconn);
+      }
+  }
+  catch (PDOException $e) {
+    echo $e->getMessage();
+  }
 ?>
 
 <!doctype html>
 <html>
-	<head>
-		<title>Konami Grade Book</title>
-		<link rel=stylesheet href="lab9.css"/>
+  <head>
+    <title>Konami Grade Book</title>
+    <link rel=stylesheet href="lab9.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand&family=Raleway&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
-	</head>
-	<body>
-		<h1>Konami Grade Book</h1>
-	</body>
+  </head>
+  <body>
+    <h1>Konami Grade Book</h1>
+    <div class="calcbox">
+      <pre id="result">
+      <?php
+        if (isset($op)) {
+          try {
+            echo $op->getEquation();
+          }
+          catch (Exception $e) {
+            $err[] = $e->getMessage();
+          }
+        }
+
+        foreach($err as $error) {
+            echo $error . "\n";
+        }
+      ?>
+      </pre>
+      <br>
+      <h2>Insert Courses</h2>
+      <form method="post" action="lab9.php" id="Courses_Insert">
+        <label for="crn">CRN:</label><br>
+        <input type="text" name="op1" id="crn" value="" /><br>
+        <label for="prefix">Prefix:</label><br>
+        <input type="text" name="op2" id="prefix" value="" /><br>
+        <label for="number">Number:</label><br>
+        <input type="text" name="op3" id="number" value="" /><br>
+        <label for="title">Title:</label><br>
+        <input type="text" name="op4" id="title" value="" /><br>
+        <label for="section">Section:</label><br>
+        <input type="text" name="op5" id="section" value="" /><br>
+        <label for="year">Year:</label><br>
+        <input type="text" name="op6" id="year" value="" /><br>
+        <input type="submit" name="insCourse" value="Insert Course"/>
+        <br/>
+        <!-- Only one of these will be set with their respective value at a time -->
+        <div class="left">
+          <p>1 Input</p>
+          <div class="leftrow">
+            <input type="submit" name="add" value="Add" />
+            <input type="submit" name="sub" value="Subtract" />
+            <input type="submit" name="mult" value="Multiply" />
+          </div>
+          <div class="leftrow">
+            <input type="submit" name="divi" value="Divide" />
+            <input type="submit" name="expo" value="Exponent" />
+            <input type="submit" name="square" value="Square" />
+          </div>
+        </div>
+        <div class="right">
+          <p>2 Inputs</p>
+          <div class="rightrow">
+            <input type="submit" name="sqrt" value="Sqrt" />
+            <input type="submit" name="log10" value="Log10" />
+            <input type="submit" name="ln" value="Ln" />
+          </div>
+          <div class="rightrow">
+            <input type="submit" name="tenexp" value="10^x" />
+            <input type="submit" name="eexp" value="e^x" />
+            <input type="submit" name="sin" value="Sin" />
+          </div>
+          <div class="rightrow">
+            <input type="submit" name="cos" value="Cos" />
+            <input type="submit" name="tan" value="Tan" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
 </html>
