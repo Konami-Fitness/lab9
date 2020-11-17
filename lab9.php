@@ -1,7 +1,7 @@
 <?php
 
 $servername = "localhost";
-$username = "teddy";
+$username = "user";
 $password = "itws";
 
 // Create connection
