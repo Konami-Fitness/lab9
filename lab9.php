@@ -6,12 +6,56 @@ $password = "itws";
 
 // Create connection
 try {
-  $dbconn = new PDO('mysql:host=localhost;dbname=test2',$username,$password);
+  $dbconn = new PDO('mysql:host=localhost;dbname=Gradebookdb',$username,$password);
   $dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   echo "Connected successfully";
 } catch (PDOException $e) {
   echo "Connection failed: " . $e->getMessage();
 }
+
+function listStudents($dbconn) {
+    $sql3 = 'SELECT 
+   RIN, lname, RCSID, fname
+ FROM
+   students
+ORDER BY 
+   RIN, lname, RCSID, fname';
+   $q3 = $dbconn->query($sql3);
+ foreach($q3 as $row) {
+      print_r('<br>');
+      print_r($row['RIN'] . ' ');   
+            print_r($row['lname'] . ' ');   
+      print_r($row['RCSID'] . ' ');   
+      print_r($row['fname'] . ' ');   
+      print_r('<br>');
+
+    }  
+  }
+
+function listAs($dbconn) {
+    $sql3 = 'SELECT DISTINCT
+  s.RIN, s.fname, s.lname, s.street,
+  s.city, s.state, s.zip
+FROM
+  grades g, students s
+WHERE 
+  g.RIN = s.RIN 
+  and g.grade > 90';
+   $q3 = $dbconn->query($sql3);
+ foreach($q3 as $row) {
+      print_r('<br>');
+      print_r($row['RIN'] . ' ');   
+            print_r($row['fname'] . ' ');   
+      print_r($row['lname'] . ' ');   
+      print_r($row['street'] . ' ');   
+            print_r($row['city'] . ' ');   
+      print_r($row['state'] . ' ');   
+      print_r($row['zip'] . ' ');   
+
+      print_r('<br>');
+
+    }  
+  }
 
 function avgGrade($dbconn) {
   $sql = 'SELECT c.title, avg(g.grade) as averageGrade
@@ -158,25 +202,27 @@ try {
   <body>
     <h1>Konami Grade Book</h1>
     <div class="calcbox">
-      
+
       <?php
-      numStudents($dbconn);
+      listStudents($dbconn);
+      listAs($dbconn);
       avgGrade($dbconn);
+      numStudents($dbconn);
       ?>
 
       <h2>Insert Courses</h2>
       <form method="post" action="lab9.php" id="Courses_Insert">
-        <label for="crn">CRN:</label><br>
+        <label for="crn">CRN</label><br>
         <input type="text" name="op1" id="crn" value="" /><br>
-        <label for="prefix">Prefix:</label><br>
+        <label for="prefix">Prefix</label><br>
         <input type="text" name="op2" id="prefix" value="" /><br>
-        <label for="number">Number:</label><br>
+        <label for="number">Number</label><br>
         <input type="text" name="op3" id="number" value="" /><br>
-        <label for="title">Title:</label><br>
+        <label for="title">Title</label><br>
         <input type="text" name="op4" id="title" value="" /><br>
-        <label for="section">Section:</label><br>
+        <label for="section">Section</label><br>
         <input type="text" name="op5" id="section" value="" /><br>
-        <label for="year">Year:</label><br>
+        <label for="year">Year</label><br>
         <input type="text" name="op6" id="year" value="" /><br>
         <input type="submit" name="insCourse" value="Insert Course"/>
         <br/>
@@ -184,13 +230,13 @@ try {
 
       <h2>Insert Grades</h2>
       <form method="post" action="lab9.php" id="Grades_Insert">
-        <label for="id">Id:</label><br>
+        <label for="id">Id</label><br>
         <input type="text" name="gp1" id="id" value="" /><br>
-        <label for="crn">CRN:</label><br>
+        <label for="crn">CRN</label><br>
         <input type="text" name="gp2" id="crn" value="" /><br>
-        <label for="rin">RIN:</label><br>
+        <label for="rin">RIN</label><br>
         <input type="text" name="gp3" id="rin" value="" /><br>
-        <label for="grade">Grade:</label><br>
+        <label for="grade">Grade</label><br>
         <input type="text" name="gp4" id="grade" value="" /><br>
         <input type="submit" name="insGrade" value="Insert Grade"/>
         <br/>
@@ -198,17 +244,17 @@ try {
 
       <h2>Insert Student</h2>
       <form name="insertstudent" method="post" action="lab9.php">
-        <label for="rin">RIN:</label><br>
+        <label for="rin">RIN</label><br>
         <input type="number" name="rin" value=""><br>
-        <label for="rcsid">RCSID:</label><br>
+        <label for="rcsid">RCSID</label><br>
         <input type="text" name="rcsid" value=""><br>
-        <label for="fname">First Name:</label><br>
+        <label for="fname">First Name</label><br>
         <input type="text" name="fname" value=""><br>
-        <label for="lname">Last Name:</label><br>
+        <label for="lname">Last Name</label><br>
         <input type="text" name="lname" value=""><br>
-        <label for="alias">Alias:</label><br>
+        <label for="alias">Alias</label><br>
         <input type="text" name="alias" value=""><br>
-        <label for="phone">Phone:</label><br>
+        <label for="phone">Phone</label><br>
         <input type="number" name="phone" value=""><br>
         <label for="street">Street</label><br>
         <input type="text" name="street" value=""><br>
@@ -224,15 +270,15 @@ try {
 
       <h2>Alter Table</h2>
       <form method="post" action="lab9.php">
-        <label for="tablename">Table name:</label><br>
+        <label for="tablename">Table name</label><br>
         <input type="text" name="tablename" id="name" value="" /><br>
-        <label for="tablename">Column name:</label><br>
+        <label for="tablename">Column name</label><br>
         <input type="text" name="columnname" id="name" value="" /><br>
-        <label for="tablename">Column type:</label><br>
+        <label for="tablename">Column type</label><br>
         <input type="text" name="columntype" id="name" value="" /><br>
-        <label for="tablename">Not null?:</label><br>
+        <label for="tablename">Not null?</label><br>
         <input type="text" name="notnull" id="name" value="" /><br>
-        <label for="tablename">Auto incrmement?:</label><br>
+        <label for="tablename">Auto incrmement?</label><br>
         <input type="text" name="auto-inc" id="name" value="" /><br>
         <input type="submit" name="addCol" value="Add column" />
       </form>
