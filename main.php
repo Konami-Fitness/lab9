@@ -13,7 +13,7 @@ try {
   echo "Connection failed: " . $e->getMessage();
 }
 
-
+/*
 $sql = "CREATE TABLE grades(id int AUTO_INCREMENT, crn int, rin int, grade int(3) NOT NULL,
     PRIMARY KEY(id), FOREIGN KEY (crn) REFERENCES courses(crn) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (rin) REFERENCES students(rin) ON DELETE CASCADE ON UPDATE CASCADE)";
@@ -22,7 +22,7 @@ if (($result = $dbconn->query($sql)) !== FALSE) {
   echo "Table created successfully";
 } else {
   echo "Error creating table: ";
-}
+}*/
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tn = $_POST['tablename'];
@@ -32,9 +32,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ai = $_POST['auto-increment'];
 
   }
-  $err = Array();
+    $err = Array();
 
-  if($nn == 'y') {
+
+function alterTable() {
+ if($nn == 'y') {
     $nn = 'NOT NULL';
   } else {
     $nn = '';
@@ -45,20 +47,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   } else {
     $ai = '';
   }
-
-  $sql2 = 'ALTER TABLE ' . $tn . $cn . $nn . $an;
+ $sql2 = 'ALTER TABLE ' . $tn .' '. $cn . ' '.  $nn . ' '. $an;
 
 //ex2
  
   $q2 = $dbconn->query($sql2);
 
 
+  }
 
-  $result = $q2->fetchAll()[0]['grade'];
+
+
+
   
-/*
+
  try {
-    if (isset($_POST['altertable']) && $_POST['altertable'] == 'Add') {
+    if (isset($_POST['addCol']) && $_POST['addCol'] == 'add column') {
       alterTable();
     }
 
@@ -67,7 +71,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   catch (Exception $e) {
     $err[] = $e->getMessage();
   }
-*/
+
 
 //ex3
  // $sql3 = 'DELETE FROM customers WHERE id = 4';
@@ -86,19 +90,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		<h1>Konami Grade Book</h1>
     <div class="calcbox">
       <pre id="result">
-  	  <?php
-  	    if (isset($sql)) {
-          try {
-            echo $sql;
-          }
-          catch (Exception $e) {
-            $err[] = $e->getMessage();
-          }
-        }
-         foreach($err as $error) {
-            echo $error . "\n";
-        }
-  	  ?>
+  	  
+  	  
   	  </pre>
       <br>
   	  <form method="post" action="main.php">
