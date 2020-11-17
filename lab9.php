@@ -49,13 +49,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   $sql2 = 'ALTER TABLE ' . $tn . $cn . $nn . $an;
 
 //ex2
- 
+
   $q2 = $dbconn->query($sql2);
 
 
 
   $result = $q2->fetchAll()[0]['grade'];
-  
+
 /*
  try {
     if (isset($_POST['altertable']) && $_POST['altertable'] == 'Add') {
@@ -106,9 +106,34 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="text" name="notnull" id="name" value="" />
         <input type="text" name="auto-inc" id="name" value="" />
 
-        <input type="submit" name="addCol" value="add column" />	
+        <input type="submit" name="addCol" value="add column" />
   			</div>
   	  </form>
+      
+      <form name="insertstudent" method="post" action="lab9.php">
+        <input type="number" name="rin" value="">
+        <input type="text" name="rcsid" value="">
+        <input type="text" name="fname" value="">
+        <input type="text" name="lname" value="">
+        <input type="text" name="alias" value="">
+        <input type="number" name="phone" value="">
+        <input type="text" name="street" value="">
+        <input type="text" name="city" value="">
+        <input type="text" name="state" value="">
+        <input type="text" name="zip" value="">
+
+        <input type="submit" name="insertStudent" value="insert student">
+      </form>
+
+      <form name="insertgrade" method="post" action="lab9.php">
+        <input type="number" name="id" value="">
+        <input type="text" name="crn" value="">
+        <input type="number" name="rin" value="">
+        <input type="number" name="grade" value="">
+
+        <input type="submit" name="insertGrade" value="insert grade">
+      </form>
+
     </div>
 	</body>
 </html>
