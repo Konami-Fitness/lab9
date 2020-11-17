@@ -35,7 +35,7 @@ try {
   $err = Array();
 
   function insertCourse($o1,$o2,$o3,$o4,$o5,$o6,$dbconn) {
-      $sql = 'INSERT INTO courses Values(' . 
+      $sql = 'INSERT INTO courses VALUES(' . 
       $o1 . ',' .
       $o2 . ',' .
       $o3 . ',' .
@@ -43,13 +43,13 @@ try {
       $o5 . ',' .
       $o6 . ')';
     echo $sql;
-    $dbconn->query($sql);
+    $result = $dbconn->query($sql);
     echo "insertCourse() called";
   }
 
   try {
     if (isset($_POST['insCourse']) && $_POST['insCourse'] == 'Insert Course') {
-      insertCourse($o1,$o2,$o3,$o4,$o5,$o5,$o6,$dbconn);
+      insertCourse($o1,$o2,$o3,$o4,$o5,$o6,$dbconn);
       }
   }
   catch (PDOException $e) {
