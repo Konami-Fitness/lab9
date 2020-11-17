@@ -53,7 +53,7 @@ function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
   $sql2 = 'ALTER TABLE ' . $tn . ' ADD '. $cn . ' '. $ct . ' ' . $nn . ' '. $ai;
 
 //ex2
- 
+
   $q2 = $dbconn->query($sql2);
 
 
@@ -62,7 +62,7 @@ function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
 
 
 
-  
+
 
  try {
     if (isset($_POST['addCol']) && $_POST['addCol'] == 'add column') {
@@ -93,8 +93,8 @@ function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
 		<h1>Konami Grade Book</h1>
     <div class="calcbox">
       <pre id="result">
-  	  
-  	  
+
+
   	  </pre>
       <br>
   	  <form method="post" action="main.php">
@@ -104,9 +104,32 @@ function alterTable($tn,$cn,$ct,$nn,$ai, $dbconn) {
         <input type="text" name="notnull" id="name" value="" />
         <input type="text" name="auto-inc" id="name" value="" />
 
-        <input type="submit" name="addCol" value="add column" />	
+        <input type="submit" name="addCol" value="add column" />
   			</div>
   	  </form>
+      <form name="insertstudent" method="post" action="lab9.php">
+        <input type="number" name="rin" value="">
+        <input type="text" name="rcsid" value="">
+        <input type="text" name="fname" value="">
+        <input type="text" name="lname" value="">
+        <input type="text" name="alias" value="">
+        <input type="number" name="phone" value="">
+        <input type="text" name="street" value="">
+        <input type="text" name="city" value="">
+        <input type="text" name="state" value="">
+        <input type="text" name="zip" value="">
+
+        <input type="submit" name="insertStudent" value="insert student">
+      </form>
+
+      <form name="insertgrade" method="post" action="lab9.php">
+        <input type="number" name="id" value="">
+        <input type="text" name="crn" value="">
+        <input type="number" name="rin" value="">
+        <input type="number" name="grade" value="">
+
+        <input type="submit" name="insertGrade" value="insert grade">
+      </form>
     </div>
 	</body>
 </html>
