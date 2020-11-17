@@ -12,7 +12,7 @@ Part 3:
 type, not null decision, and autoincrement decision along with the PDO object. These parameter values were picked up in the form fields of the html and then on
 submit of the alter button, the form field values are set to variables and the alterTable function is called. (Michael)
 
-3: To allow the suer to create a grades table, we put the sql code to create the table in a function which is called by clicking a button on the page. When clicked,
+3: To allow the user to create a grades table, we put the sql code to create the table in a function which is called by clicking a button on the page. When clicked,
 this function will create the grades table without the user needing to type in any information from a form. This was to ensure that the user correctly input
 information for the table which was needed for later parts of the lab all in an extemely convenient manner. (Michael & Teddy)
 
@@ -27,6 +27,6 @@ our HTML to output the lists onto the page. (Shane & Michael)
 Creativity
 For creativity, we created functions for each button operation for the benefits of separations of concerns which also helped us to better organize our code.
 (Michael, Teddy, Shane) We also used a try catch block to check if submit buttons were clicked wth the proper values to make sure that only a single operation would
-run (Shane). If the user failed to input the proper data types, php would throw an exception, rather than crashing the cite or corrupting the database. We also used
+run (Shane). If the user failed to input the proper data types, php would throw an exception, rather than crashing the site or corrupting the database. We also used
 CSS to display the forms in a clear column with respective headers so the user could easily identify which information was needed for each command. Finally, we left
 list the databases at the top of the page so users can see how each button impacts the database tables. (Teddy)
